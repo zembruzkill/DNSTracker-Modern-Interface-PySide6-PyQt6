@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[scripts]
+designer = "/Users/lzembruzki/.local/share/virtualenvs/DNSTracker-Dashboard-Interface-PySide6-or--TaXbNZwI/bin/pyside6-designer"
+
+[packages]
+pyside6 = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
