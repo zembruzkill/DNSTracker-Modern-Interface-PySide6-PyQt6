@@ -5,6 +5,7 @@ from PySide6.QtSvgWidgets import QSvgWidget
 
 from gui.ui_main import Ui_MainWindow
 from gui.ui_card_component import Ui_CardComponent
+from gui.ui_ui_chart_card import Ui_ChartCard
 
 class CustomButton(QPushButton):
     def __init__(self, **kwargs) -> None:
@@ -26,6 +27,14 @@ class CustomButton(QPushButton):
         self.setText(kwargs.get("text"))
         self.setIcon(QIcon(kwargs.get("icon")))
         self.setIconSize(QSize(20, 20))
+        
+class ChartCardComponent(QWidget, Ui_ChartCard):
+    def __init__(self, **kwargs):
+        super().__init__()
+        self.setupUi(self)
+        
+        if 'title' in kwargs:
+            self.card_title.setText(kwargs.get("title"))
         
 
 class CardComponent(QWidget, Ui_CardComponent):
@@ -52,7 +61,6 @@ class CardComponent(QWidget, Ui_CardComponent):
             self.stop_1 = (1 - ((int(kwargs.get("percentage")) / 100)) - 0.01)
             self.stop_2 = (1 - ((int(kwargs.get("percentage")) / 100)))
             self.updated_stylesheet_circular = self.stylesheet_base_circular.replace("{STOP_1}", str(self.stop_1)).replace("{STOP_2}", str(self.stop_2)).replace("{COLOR}", kwargs.get("color"))
-            print(self.updated_stylesheet_circular)
             self.circular_prog.setStyleSheet(self.updated_stylesheet_circular)
 
         
@@ -126,31 +134,45 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.dns_page_button.clicked.connect(self.select_dns_page)
         self.email_page_button.clicked.connect(self.select_email_page)
         self.settings_page_button.clicked.connect(self.select_settings_page)
-        
-        
-        #Adding Cards on Dashboard Page
-        self.dashboard_page_frames = QVBoxLayout()
-        self.frame_cards = QFrame()
-        self.spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        # self.frame_cards.setFrameShape(QFrame.NoFrame)
-        self.dashboard_page_frames.addWidget(self.frame_cards)
-        self.dashboard_page_frames.addItem(self.spacer)
-        
+
         #Create cards
         self.cards_layout = QHBoxLayout()
         self.card_domains_analysed = CardComponent(color="#3399FF", title="Domains Analysed", value="200.400.458", percentage="95")
         self.card_nameservers_analysed = CardComponent(color="#FFB800", title="Nameservers Analysed", value="2.400.458", percentage="85")
         self.card_emails_analysed = CardComponent(color="#FF4D4F", title="Emails Analysed", value="1.400.458", percentage="65")
         
+        
         self.cards_layout.addWidget(self.card_domains_analysed)
         self.cards_layout.addWidget(self.card_nameservers_analysed)
         self.cards_layout.addWidget(self.card_emails_analysed)
         
         self.frame_cards.setLayout(self.cards_layout)
+        self.frame_cards.layout().setContentsMargins(0, 0, 0, 0)
         
-        self.dashboard_page.setLayout(self.dashboard_page_frames)
+        self.chart_card_1 = ChartCardComponent(title="Top DNS Providers Concentration per Year - IPv4")
+        self.chart_card_2 = ChartCardComponent(title="Top DNS Providers Concentration per Year - IPv6")
+        self.middle_frame_layout = QHBoxLayout()
+        self.chart_1 = QSvgWidget("resources/images/visualization.svg")
+        self.chart_1.setMinimumSize(450, 350)
         
-        self.domains_card = CardComponent()
+        self.chart_2 = QSvgWidget("resources/images/visualization_2.svg")
+        self.chart_2.setMinimumSize(450, 350)
+        
+        self.chart_layout_1 = QVBoxLayout()
+        self.chart_layout_1.addWidget(self.chart_1)
+        self.chart_card_1.frame_main.setLayout(self.chart_layout_1)
+        
+        self.chart_layout_2 = QVBoxLayout()
+        self.chart_layout_2.addWidget(self.chart_2)
+        self.chart_card_2.frame_main.setLayout(self.chart_layout_2)
+        
+        self.middle_frame_layout.addWidget(self.chart_card_1)
+        self.middle_frame_layout.addWidget(self.chart_card_2)
+        self.frame_middle.setLayout(self.middle_frame_layout)
+        self.frame_middle.layout().setContentsMargins(0, 0, 0, 0)
+        
+        # self.bottom_frame_layout.addWidget(self.chart_3)
+        # self.frame_bottom.setLayout(self.bottom_frame_layout)
         
     def select_dashboard_page(self):
         self.stackedWidget.setCurrentIndex(0)
@@ -203,9 +225,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.animation.setEndValue(new_width)
         self.animation.setEasingCurve(QEasingCurve.OutCubic)
         self.animation.start()
-        
-        
-        
         
         
 app = QApplication([])

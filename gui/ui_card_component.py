@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'card_componentMuBXQu.ui'
+## Form generated from reading UI file 'card_componentWIdmcF.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.3.2
+## Created by: Qt User Interface Compiler version 6.4.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -63,6 +63,11 @@ class Ui_CardComponent(object):
 "	color: white;\n"
 "	font-weight: bold;\n"
 "	font-size: 18px;\n"
+"}\n"
+"\n"
+"QLabel#card_percentage{\n"
+"	font-weight: bold;\n"
+"	color: white;\n"
 "}")
         self.horizontalLayout = QHBoxLayout(CardComponent)
         self.horizontalLayout.setSpacing(0)
@@ -129,6 +134,7 @@ class Ui_CardComponent(object):
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.card_percentage = QLabel(self.main_frame)
         self.card_percentage.setObjectName(u"card_percentage")
+        self.card_percentage.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_4.addWidget(self.card_percentage)
 
@@ -157,6 +163,6 @@ class Ui_CardComponent(object):
         CardComponent.setWindowTitle(QCoreApplication.translate("CardComponent", u"Form", None))
         self.card_title.setText(QCoreApplication.translate("CardComponent", u"Card Title", None))
         self.card_value.setText(QCoreApplication.translate("CardComponent", u"1.000.000", None))
-        self.card_percentage.setText(QCoreApplication.translate("CardComponent", u"<html><head/><body><p align=\"center\"><span style=\" font-weight:700; color:#ffffff;\">50</span></p></body></html>", None))
+        self.card_percentage.setText(QCoreApplication.translate("CardComponent", u"50", None))
     # retranslateUi
 

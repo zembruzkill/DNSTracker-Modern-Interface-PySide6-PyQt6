@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [scripts]
-designer = "/Users/lzembruzki/.local/share/virtualenvs/DNSTracker-Dashboard-Interface-PySide6-or--TaXbNZwI/bin/pyside6-designer"
+designer = "/Users/lzembruzki/.local/share/virtualenvs/DNSTracker-Modern-Interface-PySide6-PyQt6-mvj8pGLM/bin/pyside6-designer"
 
 [packages]
 pyside6 = "*"

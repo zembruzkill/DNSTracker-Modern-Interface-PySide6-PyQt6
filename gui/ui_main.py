@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'mainhpWpXw.ui'
+## Form generated from reading UI file 'mainDmomdm.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.3.2
+## Created by: Qt User Interface Compiler version 6.4.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -15,16 +15,17 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QMainWindow, QPushButton, QSizePolicy, QStackedWidget,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QFrame, QHBoxLayout,
+    QLabel, QMainWindow, QPushButton, QScrollArea,
+    QSizePolicy, QSpacerItem, QStackedWidget, QVBoxLayout,
+    QWidget)
 import resource_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1390, 657)
+        MainWindow.resize(1363, 659)
         MainWindow.setMinimumSize(QSize(0, 0))
         MainWindow.setMaximumSize(QSize(1710, 16777215))
         self.centralwidget = QWidget(MainWindow)
@@ -35,6 +36,10 @@ class Ui_MainWindow(object):
 "\n"
 "QWidget#top_menu_frame{\n"
 "	background-color: #222B45;\n"
+"}\n"
+"\n"
+"QWidget#dashboard_scrollArea_contents{\n"
+"	background-color: rgb(21, 26, 48);\n"
 "}\n"
 "\n"
 "Line{\n"
@@ -279,6 +284,61 @@ class Ui_MainWindow(object):
         self.stackedWidget.setObjectName(u"stackedWidget")
         self.dashboard_page = QWidget()
         self.dashboard_page.setObjectName(u"dashboard_page")
+        self.horizontalLayout_3 = QHBoxLayout(self.dashboard_page)
+        self.horizontalLayout_3.setSpacing(0)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.dashboard_scrollArea = QScrollArea(self.dashboard_page)
+        self.dashboard_scrollArea.setObjectName(u"dashboard_scrollArea")
+        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(100)
+        sizePolicy.setHeightForWidth(self.dashboard_scrollArea.sizePolicy().hasHeightForWidth())
+        self.dashboard_scrollArea.setSizePolicy(sizePolicy)
+        self.dashboard_scrollArea.setFrameShape(QFrame.NoFrame)
+        self.dashboard_scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.dashboard_scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.dashboard_scrollArea.setSizeAdjustPolicy(QAbstractScrollArea.AdjustIgnored)
+        self.dashboard_scrollArea.setWidgetResizable(True)
+        self.dashboard_scrollArea_contents = QWidget()
+        self.dashboard_scrollArea_contents.setObjectName(u"dashboard_scrollArea_contents")
+        self.dashboard_scrollArea_contents.setGeometry(QRect(0, 0, 1088, 559))
+        sizePolicy1 = QSizePolicy(QSizePolicy.Ignored, QSizePolicy.Preferred)
+        sizePolicy1.setHorizontalStretch(100)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.dashboard_scrollArea_contents.sizePolicy().hasHeightForWidth())
+        self.dashboard_scrollArea_contents.setSizePolicy(sizePolicy1)
+        self.verticalLayout_10 = QVBoxLayout(self.dashboard_scrollArea_contents)
+        self.verticalLayout_10.setObjectName(u"verticalLayout_10")
+        self.frame_cards = QFrame(self.dashboard_scrollArea_contents)
+        self.frame_cards.setObjectName(u"frame_cards")
+        self.frame_cards.setFrameShape(QFrame.NoFrame)
+        self.frame_cards.setFrameShadow(QFrame.Raised)
+
+        self.verticalLayout_10.addWidget(self.frame_cards)
+
+        self.frame_middle = QFrame(self.dashboard_scrollArea_contents)
+        self.frame_middle.setObjectName(u"frame_middle")
+        self.frame_middle.setFrameShape(QFrame.NoFrame)
+        self.frame_middle.setFrameShadow(QFrame.Raised)
+
+        self.verticalLayout_10.addWidget(self.frame_middle)
+
+        self.frame_bottom = QFrame(self.dashboard_scrollArea_contents)
+        self.frame_bottom.setObjectName(u"frame_bottom")
+        self.frame_bottom.setFrameShape(QFrame.NoFrame)
+        self.frame_bottom.setFrameShadow(QFrame.Raised)
+
+        self.verticalLayout_10.addWidget(self.frame_bottom)
+
+        self.verticalSpacer = QSpacerItem(20, 454, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_10.addItem(self.verticalSpacer)
+
+        self.dashboard_scrollArea.setWidget(self.dashboard_scrollArea_contents)
+
+        self.horizontalLayout_3.addWidget(self.dashboard_scrollArea)
+
         self.stackedWidget.addWidget(self.dashboard_page)
         self.hosting_page = QWidget()
         self.hosting_page.setObjectName(u"hosting_page")
