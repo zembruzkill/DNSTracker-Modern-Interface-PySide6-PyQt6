@@ -11,13 +11,6 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - [Python](https://python.org/)
 - [PySide6](https://www.qt.io/qt-for-python)
 
-## Screenshots
-
-Dashboard
-<h1 align="center">
-    <img alt="" title="#dashboard" src=".github/screen_1.png"/>
-</h1>
-
 
 ## Configuração do ambiente de desenvolvimento
 Para configurar o ambiente de desenvolvimento, por favor siga os passos abaixo.
@@ -25,7 +18,7 @@ Para configurar o ambiente de desenvolvimento, por favor siga os passos abaixo.
 1. Instale Python3, Pip3 e o Pipenv.
     * `pip3 install pipenv`
 2. Clone este repositório.
-    * `git clone git@github.com:professorlucianoz/Modern-Interface-For-IoT-PySide6-or-PyQt6.git`
+    * `git clone git@github.com:zembruzkill/DNSTracker-Modern-Interface-PySide6-PyQt6.git`
 3. Dentro do diretório do repositório, execute os seguintes comandos.
     * `pipenv install`
     * `pipenv shell`
@@ -40,4 +33,4 @@ Para configurar o ambiente de desenvolvimento, por favor siga os passos abaixo.
 
 Depois que o merge da sua pull request for feito, você pode deletar a sua branch.
 
-:. Feito com ♥ by Professor Luciano :wave: [Professor Luciano](https://pythonsimplificado.com.br/links)
+:. Feito com ♥ by Luciano Zembruzki
