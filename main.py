@@ -141,11 +141,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.card_domains_analysed = CardComponent(color="#3399FF", title="Domains Analysed", value="200.400.458", percentage="95")
         self.card_nameservers_analysed = CardComponent(color="#FFB800", title="Nameservers Analysed", value="2.400.458", percentage="85")
         self.card_emails_analysed = CardComponent(color="#FF4D4F", title="Emails Analysed", value="1.400.458", percentage="65")
+        self.card_vantage_poins = CardComponent(color="#FF0084", title="Vantage Points", value="29", percentage="99")
         
         
         self.cards_layout.addWidget(self.card_domains_analysed)
         self.cards_layout.addWidget(self.card_nameservers_analysed)
         self.cards_layout.addWidget(self.card_emails_analysed)
+        self.cards_layout.addWidget(self.card_vantage_poins)
         
         self.frame_cards.setLayout(self.cards_layout)
         self.frame_cards.layout().setContentsMargins(0, 0, 0, 0)
@@ -226,7 +228,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.animation = QPropertyAnimation(self.right_menu, b"minimumWidth")
             self.animation.setDuration(500)
             self.animation.setEndValue(new_width)
-            self.animation.setEasingCurve(QEasingCurve.Linear)
+            self.animation.setEasingCurve(QEasingCurve.OutBounce)
             self.animation.start()
         else:
             new_width = 251
