@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QGraphicsDropShadowEffe
 from PySide6.QtGui import QColor, QPixmap, QIcon
 from PySide6.QtCore import Qt, QPropertyAnimation, QEasingCurve, QSize
 from PySide6.QtSvgWidgets import QSvgWidget
+import time
 
 from gui.ui_main import Ui_MainWindow
 from gui.ui_card_component import Ui_CardComponent
@@ -217,14 +218,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def toggle_menu(self):
         if self.right_menu.width() == 251:
             new_width = 56
+            self.dashboard_page_button.setText("")
+            self.hosting_page_button.setText("")
+            self.dns_page_button.setText("")
+            self.email_page_button.setText("")
+            self.settings_page_button.setText("")
+            self.animation = QPropertyAnimation(self.right_menu, b"minimumWidth")
+            self.animation.setDuration(500)
+            self.animation.setEndValue(new_width)
+            self.animation.setEasingCurve(QEasingCurve.Linear)
+            self.animation.start()
         else:
             new_width = 251
+            self.animation = QPropertyAnimation(self.right_menu, b"minimumWidth")
+            self.animation.setDuration(500)
+            self.animation.setEndValue(new_width)
+            self.animation.setEasingCurve(QEasingCurve.OutBounce)
+            self.animation.start()
+            time.sleep(0.2)
+            self.dashboard_page_button.setText("Home Dashboard")
+            self.hosting_page_button.setText("Hosting Measurement")
+            self.dns_page_button.setText("DNS Measurement")
+            self.email_page_button.setText("Email Measurement")
+            self.settings_page_button.setText("Settings")
             
-        self.animation = QPropertyAnimation(self.right_menu, b"minimumWidth")
-        self.animation.setDuration(500)
-        self.animation.setEndValue(new_width)
-        self.animation.setEasingCurve(QEasingCurve.OutCubic)
-        self.animation.start()
         
         
 app = QApplication([])
