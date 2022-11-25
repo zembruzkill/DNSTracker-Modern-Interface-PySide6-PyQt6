@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="icons">
+    <file>resources/icons/play-circle.svg</file>
     <file>resources/icons/pantone-outline.svg</file>
     <file>resources/icons/bell-outline.svg</file>
     <file>resources/icons/email-outline.svg</file>

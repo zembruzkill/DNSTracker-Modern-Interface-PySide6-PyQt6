@@ -8,6 +8,8 @@ designer = "/Users/lzembruzki/.local/share/virtualenvs/DNSTracker-Modern-Interfa
 
 [packages]
 pyside6 = "*"
+requests = "*"
+dnspython = "*"
 
 [dev-packages]
 

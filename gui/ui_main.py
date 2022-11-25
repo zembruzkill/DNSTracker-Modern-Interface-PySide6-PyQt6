@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'mainDmomdm.ui'
+## Form generated from reading UI file 'mainYPRFJN.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.0
 ##
@@ -36,6 +36,11 @@ class Ui_MainWindow(object):
 "\n"
 "QWidget#top_menu_frame{\n"
 "	background-color: #222B45;\n"
+"}\n"
+"\n"
+"QPushButton#is_collecting{\n"
+"	background-color: rgb(239, 135, 51);\n"
+"	border-radius: 4px;\n"
 "}\n"
 "\n"
 "QWidget#dashboard_scrollArea_contents{\n"
@@ -76,6 +81,15 @@ class Ui_MainWindow(object):
 "QPushButton#search_button,#email_button, #notification_button{\n"
 "	border: none;\n"
 "}\n"
+"\n"
+"QFrame#worker_frame{\n"
+"	background-color: rgb(34, 43, 6"
+                        "9);\n"
+"	border: 1px solid black;\n"
+"	border-radius: 5px;\n"
+"}\n"
+"\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -138,26 +152,6 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addWidget(self.frame_2)
 
-        self.frame_5 = QFrame(self.top_menu_frame)
-        self.frame_5.setObjectName(u"frame_5")
-        self.frame_5.setMaximumSize(QSize(62, 16777215))
-        self.frame_5.setFrameShape(QFrame.NoFrame)
-        self.frame_5.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_2 = QVBoxLayout(self.frame_5)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.search_button = QPushButton(self.frame_5)
-        self.search_button.setObjectName(u"search_button")
-        self.search_button.setMaximumSize(QSize(30, 30))
-        icon1 = QIcon()
-        icon1.addFile(u":/icons/resources/icons/search-outline.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.search_button.setIcon(icon1)
-        self.search_button.setIconSize(QSize(25, 25))
-
-        self.verticalLayout_2.addWidget(self.search_button)
-
-
-        self.horizontalLayout.addWidget(self.frame_5)
-
         self.line_2 = QFrame(self.top_menu_frame)
         self.line_2.setObjectName(u"line_2")
         self.line_2.setMaximumSize(QSize(1, 22))
@@ -167,27 +161,6 @@ class Ui_MainWindow(object):
         self.line_2.setFrameShadow(QFrame.Sunken)
 
         self.horizontalLayout.addWidget(self.line_2)
-
-        self.frame_6 = QFrame(self.top_menu_frame)
-        self.frame_6.setObjectName(u"frame_6")
-        self.frame_6.setMaximumSize(QSize(62, 16777215))
-        self.frame_6.setFrameShape(QFrame.NoFrame)
-        self.frame_6.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_3 = QVBoxLayout(self.frame_6)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.email_button = QPushButton(self.frame_6)
-        self.email_button.setObjectName(u"email_button")
-        self.email_button.setMinimumSize(QSize(30, 30))
-        self.email_button.setMaximumSize(QSize(30, 30))
-        icon2 = QIcon()
-        icon2.addFile(u":/icons/resources/icons/email-outline.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.email_button.setIcon(icon2)
-        self.email_button.setIconSize(QSize(25, 25))
-
-        self.verticalLayout_3.addWidget(self.email_button)
-
-
-        self.horizontalLayout.addWidget(self.frame_6)
 
         self.line_3 = QFrame(self.top_menu_frame)
         self.line_3.setObjectName(u"line_3")
@@ -204,18 +177,15 @@ class Ui_MainWindow(object):
         self.frame_7.setMaximumSize(QSize(62, 16777215))
         self.frame_7.setFrameShape(QFrame.NoFrame)
         self.frame_7.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_4 = QVBoxLayout(self.frame_7)
-        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.notification_button = QPushButton(self.frame_7)
-        self.notification_button.setObjectName(u"notification_button")
-        self.notification_button.setMinimumSize(QSize(30, 30))
-        self.notification_button.setMaximumSize(QSize(30, 30))
-        icon3 = QIcon()
-        icon3.addFile(u":/icons/resources/icons/bell-outline.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.notification_button.setIcon(icon3)
-        self.notification_button.setIconSize(QSize(25, 25))
+        self.horizontalLayout_5 = QHBoxLayout(self.frame_7)
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.is_collecting = QPushButton(self.frame_7)
+        self.is_collecting.setObjectName(u"is_collecting")
+        self.is_collecting.setMinimumSize(QSize(8, 8))
+        self.is_collecting.setMaximumSize(QSize(8, 8))
+        self.is_collecting.setIconSize(QSize(25, 25))
 
-        self.verticalLayout_4.addWidget(self.notification_button)
+        self.horizontalLayout_5.addWidget(self.is_collecting)
 
 
         self.horizontalLayout.addWidget(self.frame_7)
@@ -302,7 +272,7 @@ class Ui_MainWindow(object):
         self.dashboard_scrollArea.setWidgetResizable(True)
         self.dashboard_scrollArea_contents = QWidget()
         self.dashboard_scrollArea_contents.setObjectName(u"dashboard_scrollArea_contents")
-        self.dashboard_scrollArea_contents.setGeometry(QRect(0, 0, 1088, 559))
+        self.dashboard_scrollArea_contents.setGeometry(QRect(0, 0, 1088, 882))
         sizePolicy1 = QSizePolicy(QSizePolicy.Ignored, QSizePolicy.Preferred)
         sizePolicy1.setHorizontalStretch(100)
         sizePolicy1.setVerticalStretch(0)
@@ -319,6 +289,7 @@ class Ui_MainWindow(object):
 
         self.frame_middle = QFrame(self.dashboard_scrollArea_contents)
         self.frame_middle.setObjectName(u"frame_middle")
+        self.frame_middle.setMinimumSize(QSize(0, 300))
         self.frame_middle.setFrameShape(QFrame.NoFrame)
         self.frame_middle.setFrameShadow(QFrame.Raised)
 
@@ -326,6 +297,7 @@ class Ui_MainWindow(object):
 
         self.frame_bottom = QFrame(self.dashboard_scrollArea_contents)
         self.frame_bottom.setObjectName(u"frame_bottom")
+        self.frame_bottom.setMinimumSize(QSize(0, 500))
         self.frame_bottom.setFrameShape(QFrame.NoFrame)
         self.frame_bottom.setFrameShadow(QFrame.Raised)
 
@@ -372,12 +344,35 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.email_page)
         self.settings_page = QWidget()
         self.settings_page.setObjectName(u"settings_page")
-        self.verticalLayout_9 = QVBoxLayout(self.settings_page)
+        self.horizontalLayout_4 = QHBoxLayout(self.settings_page)
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.frame_3 = QFrame(self.settings_page)
+        self.frame_3.setObjectName(u"frame_3")
+        self.frame_3.setFrameShape(QFrame.NoFrame)
+        self.frame_3.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_9 = QVBoxLayout(self.frame_3)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
-        self.label_5 = QLabel(self.settings_page)
-        self.label_5.setObjectName(u"label_5")
+        self.worker_frame = QFrame(self.frame_3)
+        self.worker_frame.setObjectName(u"worker_frame")
+        self.worker_frame.setMinimumSize(QSize(0, 400))
+        self.worker_frame.setFrameShape(QFrame.NoFrame)
+        self.worker_frame.setFrameShadow(QFrame.Raised)
 
-        self.verticalLayout_9.addWidget(self.label_5)
+        self.verticalLayout_9.addWidget(self.worker_frame)
+
+        self.verticalSpacer_2 = QSpacerItem(20, 92, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_9.addItem(self.verticalSpacer_2)
+
+
+        self.horizontalLayout_4.addWidget(self.frame_3)
+
+        self.frame_4 = QFrame(self.settings_page)
+        self.frame_4.setObjectName(u"frame_4")
+        self.frame_4.setFrameShape(QFrame.NoFrame)
+        self.frame_4.setFrameShadow(QFrame.Raised)
+
+        self.horizontalLayout_4.addWidget(self.frame_4)
 
         self.stackedWidget.addWidget(self.settings_page)
 
@@ -401,15 +396,15 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Internet Centralization Observatory", None))
         self.hamburger_menu.setText("")
-        self.system_name.setText(QCoreApplication.translate("MainWindow", u"Internet Centralization Observatory", None))
-        self.search_button.setText("")
-        self.email_button.setText("")
-        self.notification_button.setText("")
+        self.system_name.setText(QCoreApplication.translate("MainWindow", u"Internet Centralization Toolkit", None))
+#if QT_CONFIG(tooltip)
+        self.is_collecting.setToolTip(QCoreApplication.translate("MainWindow", u"Collection in progress", None))
+#endif // QT_CONFIG(tooltip)
+        self.is_collecting.setText("")
         self.user_pic.setText("")
         self.user_name.setText(QCoreApplication.translate("MainWindow", u"Luciano", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:30pt; font-weight:700; color:#ffffff;\">Hosting Page</span></p></body></html>", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:30pt; font-weight:700; color:#ffffff;\">DNS Page</span></p></body></html>", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:30pt; font-weight:700; color:#ffffff;\">Email Page</span></p></body></html>", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:30pt; font-weight:700; color:#ffffff;\">Settings Page</span></p></body></html>", None))
     # retranslateUi
 

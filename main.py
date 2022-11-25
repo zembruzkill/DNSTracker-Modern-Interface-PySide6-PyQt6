@@ -1,12 +1,19 @@
 from PySide6.QtWidgets import QApplication, QMainWindow, QGraphicsDropShadowEffect, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QWidget, QFrame, QSpacerItem, QSizePolicy
 from PySide6.QtGui import QColor, QPixmap, QIcon
-from PySide6.QtCore import Qt, QPropertyAnimation, QEasingCurve, QSize
+from PySide6.QtCore import Qt, QPropertyAnimation, QEasingCurve, QSize, QTimer, QUrl, QProcess
 from PySide6.QtSvgWidgets import QSvgWidget
+from PySide6.QtWebEngineWidgets import QWebEngineView
 import time
+import os
+from settings import BASE_URL, NEW_HEADERS
+from apis.service import Service
+import requests
+import json
 
 from gui.ui_main import Ui_MainWindow
 from gui.ui_card_component import Ui_CardComponent
 from gui.ui_ui_chart_card import Ui_ChartCard
+from scripts.crawler import CrawlerThread
 
 class CustomButton(QPushButton):
     def __init__(self, **kwargs) -> None:
@@ -70,6 +77,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        
+        self.process = QProcess()
+        self.process.startDetached("python3", ["scripts/run.py"])
+        
+        self.base_dir = os.path.dirname(os.path.abspath(__file__))
+        
+        self.timer_collection = QTimer()
+        self.timer_collection.timeout.connect(self.collection_in_progress)
+        self.timer_collection.start(1000)
+        
+        self.changing_color = True
+        
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_data)
+        
+        self.timer.start(300000)
         
         # self.showMaximized()
         
@@ -152,30 +175,54 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.frame_cards.setLayout(self.cards_layout)
         self.frame_cards.layout().setContentsMargins(0, 0, 0, 0)
         
-        self.chart_card_1 = ChartCardComponent(title="Top DNS Providers Concentration per Year - IPv4")
-        self.chart_card_2 = ChartCardComponent(title="Top DNS Providers Concentration per Year - IPv6")
+        
         self.middle_frame_layout = QHBoxLayout()
-        self.chart_1 = QSvgWidget("resources/images/visualization.svg")
-        self.chart_1.setMinimumSize(450, 350)
+        self.bottom_frame_layout = QHBoxLayout()
         
-        self.chart_2 = QSvgWidget("resources/images/visualization_2.svg")
-        self.chart_2.setMinimumSize(450, 350)
+        self.chart_1 = QWebEngineView()
+        self.chart_1.setStyleSheet("border-radius: 5px;")
+        self.chart_1.setUrl(QUrl().fromLocalFile(os.path.join(self.base_dir, 'charts/chart-stack.html')))
         
-        self.chart_layout_1 = QVBoxLayout()
-        self.chart_layout_1.addWidget(self.chart_1)
-        self.chart_card_1.frame_main.setLayout(self.chart_layout_1)
+        self.chart_2 = QWebEngineView()
+        self.chart_2.setStyleSheet("border-radius: 5px;")
+        self.chart_2.setUrl(QUrl().fromLocalFile(os.path.join(self.base_dir, 'charts/graph-chart.html')))
         
-        self.chart_layout_2 = QVBoxLayout()
-        self.chart_layout_2.addWidget(self.chart_2)
-        self.chart_card_2.frame_main.setLayout(self.chart_layout_2)
+        self.chart_3 = QWebEngineView()
+        self.chart_3.setStyleSheet("border-radius: 5px;")
+        self.chart_3.setUrl(QUrl().fromLocalFile(os.path.join(self.base_dir, 'charts/treemap.html')))
         
-        self.middle_frame_layout.addWidget(self.chart_card_1)
-        self.middle_frame_layout.addWidget(self.chart_card_2)
+        self.chart_4 = QWebEngineView()
+        self.chart_4.setStyleSheet("border-radius: 5px;")
+        self.chart_4.setUrl(QUrl().fromLocalFile(os.path.join(self.base_dir, 'charts/geomap-animated.html')))
+        
+        self.middle_frame_layout.addWidget(self.chart_1)
+        self.middle_frame_layout.addWidget(self.chart_2)
         self.frame_middle.setLayout(self.middle_frame_layout)
         self.frame_middle.layout().setContentsMargins(0, 0, 0, 0)
         
-        # self.bottom_frame_layout.addWidget(self.chart_3)
-        # self.frame_bottom.setLayout(self.bottom_frame_layout)
+        self.bottom_frame_layout.addWidget(self.chart_3)
+        self.bottom_frame_layout.addWidget(self.chart_4)
+        self.bottom_frame_layout.layout().setContentsMargins(0, 0, 0, 0)
+        self.frame_bottom.setLayout(self.bottom_frame_layout)
+    
+    def closeEvent(self, event):
+        self.process.kill()
+        self.close()
+        
+        
+    def update_data(self):
+        self.service = Service(1)
+        self.service.alive()
+        
+    def collection_in_progress(self):
+        if self.changing_color:
+            self.is_collecting.setStyleSheet("""QPushButton#is_collecting{\n	background-color: rgb(255, 255, 51);\n	border-radius: 4px;\n}
+                                            """)
+            self.changing_color = False
+        else:
+            self.is_collecting.setStyleSheet("""QPushButton#is_collecting{\n	background-color: rgb(205, 78, 40);\n	border-radius: 4px;\n}
+                                            """)
+            self.changing_color = True
         
     def select_dashboard_page(self):
         self.stackedWidget.setCurrentIndex(0)
@@ -245,10 +292,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.settings_page_button.setText("Settings")
             
         
-        
-app = QApplication([])
+if __name__ == "__main__":
+    app = QApplication([])
+    service = Service(1)
+    service.alive()
 
-window = MainWindow()
-window.show()
+    window = MainWindow()
+    window.show()
 
-app.exec()
+    app.exec()  
