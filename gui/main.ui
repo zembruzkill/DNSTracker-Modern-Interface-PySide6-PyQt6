@@ -18,7 +18,7 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>1710</width>
+    <width>16777215</width>
     <height>16777215</height>
    </size>
   </property>
@@ -84,7 +84,6 @@ QFrame#worker_frame{
 	border: 1px solid black;
 	border-radius: 5px;
 }
-
 
 
 
@@ -430,16 +429,16 @@ max-height: 20px;</string>
                <number>0</number>
               </property>
               <property name="leftMargin">
-               <number>0</number>
+               <number>15</number>
               </property>
               <property name="topMargin">
-               <number>0</number>
+               <number>15</number>
               </property>
               <property name="rightMargin">
                <number>0</number>
               </property>
               <property name="bottomMargin">
-               <number>0</number>
+               <number>15</number>
               </property>
               <item>
                <widget class="QScrollArea" name="dashboard_scrollArea">
@@ -469,8 +468,8 @@ max-height: 20px;</string>
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>1088</width>
-                   <height>882</height>
+                   <width>1065</width>
+                   <height>900</height>
                   </rect>
                  </property>
                  <property name="sizePolicy">
@@ -480,6 +479,21 @@ max-height: 20px;</string>
                   </sizepolicy>
                  </property>
                  <layout class="QVBoxLayout" name="verticalLayout_10">
+                  <property name="spacing">
+                   <number>30</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>15</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
                   <item>
                    <widget class="QFrame" name="frame_cards">
                     <property name="frameShape">

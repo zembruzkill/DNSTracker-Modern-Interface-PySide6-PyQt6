@@ -174,6 +174,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         self.frame_cards.setLayout(self.cards_layout)
         self.frame_cards.layout().setContentsMargins(0, 0, 0, 0)
+        self.frame_cards.layout().setSpacing(30)
         
         
         self.middle_frame_layout = QHBoxLayout()
@@ -199,10 +200,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.middle_frame_layout.addWidget(self.chart_2)
         self.frame_middle.setLayout(self.middle_frame_layout)
         self.frame_middle.layout().setContentsMargins(0, 0, 0, 0)
+        self.frame_middle.layout().setSpacing(30)
         
         self.bottom_frame_layout.addWidget(self.chart_3)
         self.bottom_frame_layout.addWidget(self.chart_4)
         self.bottom_frame_layout.layout().setContentsMargins(0, 0, 0, 0)
+        self.bottom_frame_layout.layout().setSpacing(30)
         self.frame_bottom.setLayout(self.bottom_frame_layout)
     
     def closeEvent(self, event):

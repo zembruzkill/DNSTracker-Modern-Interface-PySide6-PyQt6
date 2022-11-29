@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'mainYPRFJN.ui'
+## Form generated from reading UI file 'mainJbPEyo.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.0
 ##
@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(1363, 659)
         MainWindow.setMinimumSize(QSize(0, 0))
-        MainWindow.setMaximumSize(QSize(1710, 16777215))
+        MainWindow.setMaximumSize(QSize(16777215, 16777215))
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setStyleSheet(u"QLabel, QPushButton{\n"
@@ -88,7 +88,6 @@ class Ui_MainWindow(object):
 "	border: 1px solid black;\n"
 "	border-radius: 5px;\n"
 "}\n"
-"\n"
 "\n"
 "\n"
 "\n"
@@ -257,7 +256,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3 = QHBoxLayout(self.dashboard_page)
         self.horizontalLayout_3.setSpacing(0)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_3.setContentsMargins(15, 15, 0, 15)
         self.dashboard_scrollArea = QScrollArea(self.dashboard_page)
         self.dashboard_scrollArea.setObjectName(u"dashboard_scrollArea")
         sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -272,14 +271,16 @@ class Ui_MainWindow(object):
         self.dashboard_scrollArea.setWidgetResizable(True)
         self.dashboard_scrollArea_contents = QWidget()
         self.dashboard_scrollArea_contents.setObjectName(u"dashboard_scrollArea_contents")
-        self.dashboard_scrollArea_contents.setGeometry(QRect(0, 0, 1088, 882))
+        self.dashboard_scrollArea_contents.setGeometry(QRect(0, 0, 1065, 900))
         sizePolicy1 = QSizePolicy(QSizePolicy.Ignored, QSizePolicy.Preferred)
         sizePolicy1.setHorizontalStretch(100)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.dashboard_scrollArea_contents.sizePolicy().hasHeightForWidth())
         self.dashboard_scrollArea_contents.setSizePolicy(sizePolicy1)
         self.verticalLayout_10 = QVBoxLayout(self.dashboard_scrollArea_contents)
+        self.verticalLayout_10.setSpacing(30)
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
+        self.verticalLayout_10.setContentsMargins(0, 0, 15, 0)
         self.frame_cards = QFrame(self.dashboard_scrollArea_contents)
         self.frame_cards.setObjectName(u"frame_cards")
         self.frame_cards.setFrameShape(QFrame.NoFrame)
