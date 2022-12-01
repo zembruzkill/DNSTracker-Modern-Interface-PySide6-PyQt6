@@ -10,6 +10,8 @@ designer = "/Users/lzembruzki/.local/share/virtualenvs/DNSTracker-Modern-Interfa
 pyside6 = "*"
 requests = "*"
 dnspython = "*"
+avro = "*"
+fastavro = "*"
 
 [dev-packages]
 

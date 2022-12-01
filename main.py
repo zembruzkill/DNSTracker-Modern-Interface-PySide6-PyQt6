@@ -1,8 +1,17 @@
-from PySide6.QtWidgets import QApplication, QMainWindow, QGraphicsDropShadowEffect, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QWidget, QFrame, QSpacerItem, QSizePolicy
+# PySide6 Imports
+from PySide6.QtWidgets import QApplication, QMainWindow, QGraphicsDropShadowEffect, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QWidget, QFrame, QSpacerItem, QSizePolicy, QScrollArea
 from PySide6.QtGui import QColor, QPixmap, QIcon
 from PySide6.QtCore import Qt, QPropertyAnimation, QEasingCurve, QSize, QTimer, QUrl, QProcess
 from PySide6.QtSvgWidgets import QSvgWidget
 from PySide6.QtWebEngineWidgets import QWebEngineView
+
+# GUI Imports
+from gui.ui_main import Ui_MainWindow
+from gui.ui_card_component import Ui_CardComponent
+from gui.ui_ui_chart_card import Ui_ChartCard
+from gui.ui_custom_scroll_area import Ui_CustomScrollArea
+
+# General imports
 import time
 import os
 from settings import BASE_URL, NEW_HEADERS
@@ -10,10 +19,11 @@ from apis.service import Service
 import requests
 import json
 
-from gui.ui_main import Ui_MainWindow
-from gui.ui_card_component import Ui_CardComponent
-from gui.ui_ui_chart_card import Ui_ChartCard
+# Scripts imports
 from scripts.crawler import CrawlerThread
+from scripts.geolocation import GeoLocation
+
+base_dir = os.path.dirname(os.path.abspath(__file__))
 
 class CustomButton(QPushButton):
     def __init__(self, **kwargs) -> None:
@@ -71,17 +81,83 @@ class CardComponent(QWidget, Ui_CardComponent):
             self.updated_stylesheet_circular = self.stylesheet_base_circular.replace("{STOP_1}", str(self.stop_1)).replace("{STOP_2}", str(self.stop_2)).replace("{COLOR}", kwargs.get("color"))
             self.circular_prog.setStyleSheet(self.updated_stylesheet_circular)
 
+class DashboardScrollArea(QWidget, Ui_CustomScrollArea):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
         
+        self.verticalLayout = QVBoxLayout()
+        
+        self.frame_cards = QFrame()
+        self.frame_middle = QFrame()
+        self.frame_bottom = QFrame()
+        
+        self.verticalLayout.addWidget(self.frame_cards)
+        self.verticalLayout.addWidget(self.frame_middle)
+        self.verticalLayout.addWidget(self.frame_bottom)
+        
+        self.scrollArea.setLayout(self.verticalLayout)
+        self.scrollArea.layout().setContentsMargins(0, 0, 0, 0)
+        self.scrollArea.layout().setSpacing(30)
+        
+        #Create cards
+        self.cards_layout = QHBoxLayout()
+        self.card_domains_analysed = CardComponent(color="#3399FF", title="Domains Analysed", value="200.400.458", percentage="95")
+        self.card_nameservers_analysed = CardComponent(color="#FFB800", title="Nameservers Analysed", value="2.400.458", percentage="85")
+        self.card_emails_analysed = CardComponent(color="#FF4D4F", title="Emails Analysed", value="1.400.458", percentage="65")
+        self.card_vantage_poins = CardComponent(color="#FF0084", title="Vantage Points", value="29", percentage="99")
+        
+        
+        self.cards_layout.addWidget(self.card_domains_analysed)
+        self.cards_layout.addWidget(self.card_nameservers_analysed)
+        self.cards_layout.addWidget(self.card_emails_analysed)
+        self.cards_layout.addWidget(self.card_vantage_poins)
+        
+        self.frame_cards.setLayout(self.cards_layout)
+        self.frame_cards.layout().setContentsMargins(0, 0, 0, 0)
+        self.frame_cards.layout().setSpacing(30)
+        
+        self.middle_frame_layout = QHBoxLayout()
+        self.bottom_frame_layout = QHBoxLayout()
+        
+        self.chart_1 = QWebEngineView()
+        self.chart_1.setStyleSheet("border-radius: 5px;")
+        self.chart_1.setUrl(QUrl().fromLocalFile(os.path.join(base_dir, 'charts/chart-stack.html')))
+        
+        self.chart_2 = QWebEngineView()
+        self.chart_2.setStyleSheet("border-radius: 5px;")
+        self.chart_2.setUrl(QUrl().fromLocalFile(os.path.join(base_dir, 'charts/graph-chart.html')))
+        
+        self.chart_3 = QWebEngineView()
+        self.chart_3.setStyleSheet("border-radius: 5px;")
+        self.chart_3.setUrl(QUrl().fromLocalFile(os.path.join(base_dir, 'charts/treemap.html')))
+        
+        self.chart_4 = QWebEngineView()
+        self.chart_4.setStyleSheet("border-radius: 5px;")
+        self.chart_4.setUrl(QUrl().fromLocalFile(os.path.join(base_dir, 'charts/geomap-animated.html')))
+        
+        self.middle_frame_layout.addWidget(self.chart_1)
+        self.middle_frame_layout.addWidget(self.chart_2)
+        self.frame_middle.setLayout(self.middle_frame_layout)
+        self.frame_middle.layout().setContentsMargins(0, 0, 0, 0)
+        self.frame_middle.layout().setSpacing(30)
+        
+        self.bottom_frame_layout.addWidget(self.chart_3)
+        self.bottom_frame_layout.addWidget(self.chart_4)
+        self.bottom_frame_layout.layout().setContentsMargins(0, 0, 0, 0)
+        self.bottom_frame_layout.layout().setSpacing(30)
+        self.frame_bottom.setLayout(self.bottom_frame_layout)
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         
+        self.geolocation = GeoLocation('177.4.51.186')
+        self.geolocation.get_location()
+        
         self.process = QProcess()
         self.process.startDetached("python3", ["scripts/run.py"])
-        
-        self.base_dir = os.path.dirname(os.path.abspath(__file__))
         
         self.timer_collection = QTimer()
         self.timer_collection.timeout.connect(self.collection_in_progress)
@@ -158,55 +234,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.dns_page_button.clicked.connect(self.select_dns_page)
         self.email_page_button.clicked.connect(self.select_email_page)
         self.settings_page_button.clicked.connect(self.select_settings_page)
-
-        #Create cards
-        self.cards_layout = QHBoxLayout()
-        self.card_domains_analysed = CardComponent(color="#3399FF", title="Domains Analysed", value="200.400.458", percentage="95")
-        self.card_nameservers_analysed = CardComponent(color="#FFB800", title="Nameservers Analysed", value="2.400.458", percentage="85")
-        self.card_emails_analysed = CardComponent(color="#FF4D4F", title="Emails Analysed", value="1.400.458", percentage="65")
-        self.card_vantage_poins = CardComponent(color="#FF0084", title="Vantage Points", value="29", percentage="99")
         
+        self.dashboard_page_layout = QHBoxLayout()
         
-        self.cards_layout.addWidget(self.card_domains_analysed)
-        self.cards_layout.addWidget(self.card_nameservers_analysed)
-        self.cards_layout.addWidget(self.card_emails_analysed)
-        self.cards_layout.addWidget(self.card_vantage_poins)
+        self.dashboard_page_custom_scroll = DashboardScrollArea()
+        self.dashboard_page_layout.addWidget(self.dashboard_page_custom_scroll)
         
-        self.frame_cards.setLayout(self.cards_layout)
-        self.frame_cards.layout().setContentsMargins(0, 0, 0, 0)
-        self.frame_cards.layout().setSpacing(30)
-        
-        
-        self.middle_frame_layout = QHBoxLayout()
-        self.bottom_frame_layout = QHBoxLayout()
-        
-        self.chart_1 = QWebEngineView()
-        self.chart_1.setStyleSheet("border-radius: 5px;")
-        self.chart_1.setUrl(QUrl().fromLocalFile(os.path.join(self.base_dir, 'charts/chart-stack.html')))
-        
-        self.chart_2 = QWebEngineView()
-        self.chart_2.setStyleSheet("border-radius: 5px;")
-        self.chart_2.setUrl(QUrl().fromLocalFile(os.path.join(self.base_dir, 'charts/graph-chart.html')))
-        
-        self.chart_3 = QWebEngineView()
-        self.chart_3.setStyleSheet("border-radius: 5px;")
-        self.chart_3.setUrl(QUrl().fromLocalFile(os.path.join(self.base_dir, 'charts/treemap.html')))
-        
-        self.chart_4 = QWebEngineView()
-        self.chart_4.setStyleSheet("border-radius: 5px;")
-        self.chart_4.setUrl(QUrl().fromLocalFile(os.path.join(self.base_dir, 'charts/geomap-animated.html')))
-        
-        self.middle_frame_layout.addWidget(self.chart_1)
-        self.middle_frame_layout.addWidget(self.chart_2)
-        self.frame_middle.setLayout(self.middle_frame_layout)
-        self.frame_middle.layout().setContentsMargins(0, 0, 0, 0)
-        self.frame_middle.layout().setSpacing(30)
-        
-        self.bottom_frame_layout.addWidget(self.chart_3)
-        self.bottom_frame_layout.addWidget(self.chart_4)
-        self.bottom_frame_layout.layout().setContentsMargins(0, 0, 0, 0)
-        self.bottom_frame_layout.layout().setSpacing(30)
-        self.frame_bottom.setLayout(self.bottom_frame_layout)
+        self.dashboard_page.setLayout(self.dashboard_page_layout)
     
     def closeEvent(self, event):
         self.process.kill()

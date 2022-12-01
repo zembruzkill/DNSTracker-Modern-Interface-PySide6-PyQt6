@@ -3,17 +3,55 @@ import dns.resolver
 import concurrent.futures
 import sys
 from datetime import datetime
-import requests
 import os
 
+from fastavro import parse_schema, writer, reader, json_writer
 
+
+base_dir = os.path.dirname(os.path.abspath(__file__))
 
 BASE_URL = 'http://localhost:8000'
 NEW_HEADERS = {'Content-type': 'application/json'}
 
+schema = {
+        "namespace": "exemple.schema",
+        "type": "record",
+        "name": "query",
+        "fields": [
+            {"name": "domain", "type": "string"},
+            {"name": "version_id", "type": "int"},
+            {"name": "query_name", "type": "string"},
+            {"name": "query_type", "type": "string"},
+            {"name": "ipv4_address", "type": ["string", "null"]},
+            {"name": "ipv6_address", "type": ["string", "null"]},
+            {"name": "as_number", "type": ["string", "null"]},
+            {"name": "as_name", "type": ["string", "null"]},
+            {"name": "bgp_prefix", "type": ["string", "null"]},
+            {"name": "worker_id", "type": ["string", "null"]},
+            {"name": "created_at", "type": "string"},
+            {"name": "updated_at", "type": "string"}
+        ]
+}
+
+class AvroWriter():
+    def __init__(self, schema_file: str, output: str) -> None:
+        self.schema_file = schema_file
+        self.output = output
+        self.schema = parse_schema(schema)
+        
+    def write(self, data: dict) -> None:
+        print(data)
+        list = []
+        list.append(data)
+        with open(os.path.join(base_dir, self.output), "a+b") as fp:
+            writer(fp, self.schema, list)
+        fp.close()
+
 
 class CrawlerThread():
     def __init__(self):
+        
+        self.avroWriter = AvroWriter('../avro_files/schema.avsc', '../avro_files/collections/queries.avro')
         
         # today = datetime.now()
 
@@ -28,15 +66,8 @@ class CrawlerThread():
     def start(self, domain):
         self.getRecordsFromAuth(domain)
         
-    def post_query(self, query_data):
-        try:
-            json_data = json.dumps(query_data)
-            query_url = BASE_URL+'/core/api/query/'
-            response = requests.post(query_url, json_data,
-                                headers=NEW_HEADERS)
-            print(response.json())
-        except Exception as e:
-            print(e)
+    def save_query(self, query_data):
+        self.avroWriter.write(query_data)
 
     def getSimpleARecord(self, address):
         try:
@@ -87,7 +118,7 @@ class CrawlerThread():
 
                 # print('query A', query)
 
-            self.post_query(query)
+            self.save_query(query)
 
             return True
         except Exception as e:
@@ -120,7 +151,7 @@ class CrawlerThread():
 
                 # print('query AAAA', query)
 
-                self.post_query(query)
+                self.save_query(query)
 
             return True
         except Exception as e:
@@ -150,7 +181,7 @@ class CrawlerThread():
 
                 # print('query NS', query)
 
-                self.post_query(query)
+                self.save_query(query)
 
             return True
         except Exception as e:
@@ -183,7 +214,7 @@ class CrawlerThread():
                     query['updated_at'] = now.isoformat()
 
                     # print('query MX', query)
-                    self.post_query(query)
+                    self.save_query(query)
 
                 for aaaa_record in aaaa_records:
                     query = {}
@@ -201,7 +232,7 @@ class CrawlerThread():
                     query['updated_at'] = now.isoformat()
 
                     # print('query MX', query)
-                    self.post_query(query)            
+                    self.save_query(query)            
 
             return True
         except Exception as e:

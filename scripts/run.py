@@ -15,6 +15,8 @@ if __name__ == '__main__':
     processedDomain = set()
     domainErrorDict = set()
     
+    query_objects = []
+    
     list_file = '/tranco.txt'
     base_dir = os.path.dirname(os.path.abspath(__file__))
     
@@ -30,4 +32,7 @@ if __name__ == '__main__':
     for domain in domainList:
         if domain not in processedDomain:
             processedDomain.add(domain)
-            crawler.start(domain)
+            query_objects.append(crawler.start(domain))
+            
+            
+    
