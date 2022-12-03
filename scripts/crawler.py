@@ -49,9 +49,13 @@ class AvroWriter():
 
 
 class CrawlerThread():
-    def __init__(self):
+    def __init__(self, handle_id, query_file_name):
         
-        self.avroWriter = AvroWriter('../avro_files/schema.avsc', '../avro_files/collections/queries.avro')
+        self.handle_id = handle_id
+        
+        self.query_file_name = query_file_name
+        
+        self.avroWriter = AvroWriter('../avro_files/schema.avsc', '../avro_files/collections/' + self.query_file_name)
         
         # today = datetime.now()
 

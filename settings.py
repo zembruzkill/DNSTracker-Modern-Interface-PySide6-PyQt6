@@ -26,4 +26,5 @@ except FileNotFoundError:
 
 
 BASE_URL = get_env_var("base_url", SETTINGS)
-NEW_HEADERS = {'Content-type': 'application/json'}
+JSON_HEADERS = {'Content-type': 'application/json'}
+MULTIPART_HEADERS = {'Content-type': 'multipart/form-data'}

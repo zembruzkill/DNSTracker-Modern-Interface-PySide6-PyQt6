@@ -14,10 +14,11 @@ from gui.ui_custom_scroll_area import Ui_CustomScrollArea
 # General imports
 import time
 import os
-from settings import BASE_URL, NEW_HEADERS
+from settings import BASE_URL, JSON_HEADERS
 from apis.service import Service
 import requests
 import json
+import glob
 
 # Scripts imports
 from scripts.crawler import CrawlerThread
@@ -153,12 +154,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         
-        self.geolocation = GeoLocation('177.4.51.186')
-        self.geolocation.get_location()
+        self.service = Service()
+        self.service.alive(worker_id=1, ip_address=geolocation_info['ip'], city=geolocation_info['city'], region=geolocation_info['region'], country=geolocation_info['country'])
+        self.version = self.service.version(worker_id=1)
+        self.handle_version = self.service.handle_version(worker_id=1, version_id=self.version['data']['id'])
+        print(self.handle_version)
         
         self.process = QProcess()
-        self.process.startDetached("python3", ["scripts/run.py"])
-        
+        self.process.start("python3", ["scripts/run.py",
+                                               str(self.handle_version['data']['id']),
+                                               str(self.version['data']['id']),
+                                               str(self.handle_version['data']['rank_start']),
+                                               str(self.handle_version['data']['rank_end'])])
+        self.process.finished.connect(self.process_finished)      
+          
         self.timer_collection = QTimer()
         self.timer_collection.timeout.connect(self.collection_in_progress)
         self.timer_collection.start(1000)
@@ -248,8 +257,32 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         
     def update_data(self):
-        self.service = Service(1)
-        self.service.alive()
+        geolocation = GeoLocation()
+        geolocation_info = geolocation.get_location()
+        
+        service = Service()
+        service.alive(worker_id=1, ip_address=geolocation_info['ip'], city=geolocation_info['city'], region=geolocation_info['region'], country=geolocation_info['country'])
+        self.version = self.service.version(worker_id=1)
+        
+    def process_finished(self):
+        self.process.kill()
+        
+        self.file_error = glob.glob('*')
+        print(self.file_error)
+        
+        self.version = self.service.version(worker_id=1)
+        self.handle_version = self.service.handle_version(worker_id=1, version_id=self.version['data']['id'])
+        print(self.handle_version)
+        
+        
+        self.process = QProcess()
+        self.process.start("python3", ["scripts/run.py",
+                                               str(self.handle_version['data']['id']),
+                                               str(self.version['data']['id']),
+                                               str(self.handle_version['data']['rank_start']),
+                                               str(self.handle_version['data']['rank_end'])])
+        self.process.finished.connect(self.process_finished) 
+        
         
     def collection_in_progress(self):
         if self.changing_color:
@@ -331,8 +364,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
 if __name__ == "__main__":
     app = QApplication([])
-    service = Service(1)
-    service.alive()
+    
+    geolocation = GeoLocation()
+    geolocation_info = geolocation.get_location()
 
     window = MainWindow()
     window.show()

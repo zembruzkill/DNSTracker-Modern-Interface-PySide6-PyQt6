@@ -8,17 +8,10 @@ headers: dict[str, str] = {
         }
 
 class GeoLocation():
-    def __init__(self, ip: str) -> None:
-        self.ip = ip
+    def __init__(self) -> None:
+        pass
 
     def get_location(self):
-        ip_address = self.ip
-        response = requests.get(f'https://ipapi.co/{ip_address}/json/', headers=headers).json()
-        location_data = {
-            "ip": ip_address,
-            "city": response.get("city"),
-            "region": response.get("region"),
-            "country": response.get("country_name")
-        }
-        return location_data
+        response = requests.get(f'https://ipapi.co/json/', headers=headers).json()
+        return response
 
