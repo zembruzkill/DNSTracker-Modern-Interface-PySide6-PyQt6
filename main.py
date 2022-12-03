@@ -154,26 +154,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         
-        self.service = Service()
-        self.service.alive(worker_id=1, ip_address=geolocation_info['ip'], city=geolocation_info['city'], region=geolocation_info['region'], country=geolocation_info['country'])
-        self.version = self.service.version(worker_id=1)
-        self.handle_version = self.service.handle_version(worker_id=1, version_id=self.version['data']['id'])
-        print(self.handle_version)
-        
+        self.is_running = False
+        self.changing_color = True
         self.process = QProcess()
-        self.process.start("python3", ["scripts/run.py",
-                                               str(self.handle_version['data']['id']),
-                                               str(self.version['data']['id']),
-                                               str(self.handle_version['data']['rank_start']),
-                                               str(self.handle_version['data']['rank_end'])])
-        self.process.finished.connect(self.process_finished)      
+        self.collection_in_progress()
           
         self.timer_collection = QTimer()
         self.timer_collection.timeout.connect(self.collection_in_progress)
-        self.timer_collection.start(1000)
+        self.timer_collection.start(100000)
         
-        self.changing_color = True
-        
+
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_data)
         
@@ -262,29 +252,53 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         service = Service()
         service.alive(worker_id=1, ip_address=geolocation_info['ip'], city=geolocation_info['city'], region=geolocation_info['region'], country=geolocation_info['country'])
-        self.version = self.service.version(worker_id=1)
+        
         
     def process_finished(self):
-        self.process.kill()
+        try:
+            self.process.kill()
+        except Exception as e:
+            print(e)
+        self.is_running = False
         
-        self.file_error = glob.glob('*')
-        print(self.file_error)
+        self.collection_in_progress()
         
-        self.version = self.service.version(worker_id=1)
-        self.handle_version = self.service.handle_version(worker_id=1, version_id=self.version['data']['id'])
-        print(self.handle_version)
+        # self.version = self.service.version(worker_id=1)
+        # self.handle_version = self.service.handle_version(worker_id=1, version_id=self.version['data']['id'])
         
-        
-        self.process = QProcess()
-        self.process.start("python3", ["scripts/run.py",
-                                               str(self.handle_version['data']['id']),
-                                               str(self.version['data']['id']),
-                                               str(self.handle_version['data']['rank_start']),
-                                               str(self.handle_version['data']['rank_end'])])
-        self.process.finished.connect(self.process_finished) 
+        # self.process = QProcess()
+        # self.process.start("python3", ["scripts/run.py",
+        #                                        str(self.handle_version['data']['id']),
+        #                                        str(self.version['data']['id']),
+        #                                        str(self.handle_version['data']['rank_start']),
+        #                                        str(self.handle_version['data']['rank_end'])])
+        # self.process.finished.connect(self.process_finished) 
         
         
     def collection_in_progress(self):
+        if not self.is_running:
+            try:
+                self.service = Service()
+                self.service.alive(worker_id=1, ip_address=geolocation_info['ip'], city=geolocation_info['city'], region=geolocation_info['region'], country=geolocation_info['country'])
+                self.version = self.service.version(worker_id=1)
+                self.handle_version = self.service.handle_version(worker_id=1, version_id=self.version['data']['id'])
+            except Exception as e:
+                print(e)
+                
+            if self.version and self.handle_version:
+                self.is_running = True
+                self.process = QProcess()
+                print('Running on range of domains: ' + 'from ' + str(self.handle_version['data']['rank_start'])+ ' to ' + str(self.handle_version['data']['rank_end']))
+                self.process.start("python3", ["scripts/run.py",
+                                                    str(self.handle_version['data']['id']),
+                                                    str(self.version['data']['id']),
+                                                    str(self.handle_version['data']['rank_start']),
+                                                    str(self.handle_version['data']['rank_end'])])
+                self.process.finished.connect(self.process_finished)
+        else:
+            print("Already running")
+                
+        
         if self.changing_color:
             self.is_collecting.setStyleSheet("""QPushButton#is_collecting{\n	background-color: rgb(255, 255, 51);\n	border-radius: 4px;\n}
                                             """)
