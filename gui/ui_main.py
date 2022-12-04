@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'mainjWXZun.ui'
+## Form generated from reading UI file 'mainmdynzQ.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.0
 ##
@@ -129,6 +129,11 @@ class Ui_MainWindow(object):
 "}\n"
 ""
                         "\n"
+"QLabel#worker_name_required{\n"
+"	font-size: 10px;\n"
+"	color: #FF3D71;\n"
+"}\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -367,9 +372,7 @@ class Ui_MainWindow(object):
         self.frame_form.setFrameShape(QFrame.NoFrame)
         self.frame_form.setFrameShadow(QFrame.Raised)
         self.verticalLayout_3 = QVBoxLayout(self.frame_form)
-        self.verticalLayout_3.setSpacing(16)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.verticalLayout_3.setContentsMargins(25, 16, 25, 16)
         self.worker_name = QLineEdit(self.frame_form)
         self.worker_name.setObjectName(u"worker_name")
 

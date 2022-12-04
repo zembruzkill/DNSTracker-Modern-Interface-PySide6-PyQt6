@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'loginULtuKs.ui'
+## Form generated from reading UI file 'loginVPqReX.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.0
 ##
@@ -104,6 +104,10 @@ class Ui_Login(object):
 "	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #D3BEFE, stop:0.98 #B18AFE);\n"
 "}\n"
 "\n"
+"QPushButton#login_button::disabled{\n"
+"	background-color: rgba(180,180,219,.24);\n"
+"}\n"
+"\n"
 "QPushButton#forgot_button{\n"
 "	border: none;\n"
 "	color: white;\n"
@@ -180,9 +184,7 @@ class Ui_Login(object):
 
         self.username_edit = QLineEdit(self.frame_content)
         self.username_edit.setObjectName(u"username_edit")
-        self.username_edit.setStyleSheet(u"QLineEdit{\n"
-"	border: 1px solid #2CE69B;\n"
-"}")
+        self.username_edit.setStyleSheet(u"")
 
         self.verticalLayout.addWidget(self.username_edit)
 
@@ -231,6 +233,7 @@ class Ui_Login(object):
 
         self.login_button = QPushButton(self.frame_content)
         self.login_button.setObjectName(u"login_button")
+        self.login_button.setEnabled(False)
 
         self.verticalLayout.addWidget(self.login_button)
 
@@ -263,7 +266,7 @@ class Ui_Login(object):
         self.username_label.setText(QCoreApplication.translate("Login", u"Username", None))
         self.username_edit.setText("")
         self.username_edit.setPlaceholderText(QCoreApplication.translate("Login", u"Username", None))
-        self.username_required.setText(QCoreApplication.translate("Login", u"Email is required!", None))
+        self.username_required.setText(QCoreApplication.translate("Login", u"Username is required!", None))
         self.password_label.setText(QCoreApplication.translate("Login", u"Password", None))
         self.password_edit.setPlaceholderText(QCoreApplication.translate("Login", u"Password", None))
         self.password_required.setText(QCoreApplication.translate("Login", u"Password is required!", None))

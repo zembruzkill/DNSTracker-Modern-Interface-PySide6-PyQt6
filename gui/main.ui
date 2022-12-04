@@ -125,6 +125,11 @@ QPushButton#save_button::hover{
 	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #D3BEFE, stop:0.98 #B18AFE);
 }
 
+QLabel#worker_name_required{
+	font-size: 10px;
+	color: #FF3D71;
+}
+
 
 
 
@@ -589,21 +594,6 @@ max-height: 20px;</string>
                        <enum>QFrame::Raised</enum>
                       </property>
                       <layout class="QVBoxLayout" name="verticalLayout_3">
-                       <property name="spacing">
-                        <number>16</number>
-                       </property>
-                       <property name="leftMargin">
-                        <number>25</number>
-                       </property>
-                       <property name="topMargin">
-                        <number>16</number>
-                       </property>
-                       <property name="rightMargin">
-                        <number>25</number>
-                       </property>
-                       <property name="bottomMargin">
-                        <number>16</number>
-                       </property>
                        <item>
                         <widget class="QLineEdit" name="worker_name">
                          <property name="text">

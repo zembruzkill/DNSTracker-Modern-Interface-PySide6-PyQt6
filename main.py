@@ -165,7 +165,8 @@ class Login(QMainWindow, Ui_Login):
             self.password_edit.setText(login_saved.get("password"))
             self.remember_checkbox.setChecked(True)
             
-        
+        self.validate_login()
+            
         center = QScreen.availableGeometry(QApplication.primaryScreen()).center()
         self.move(center.x() - self.width() / 2, center.y() - self.height() / 2)
         
@@ -190,12 +191,19 @@ class Login(QMainWindow, Ui_Login):
         else:
             self.username_required.setVisible(False)
             self.username_edit.setStyleSheet("border: 1px solid #2CE69B;")
+            self.login_button.setEnabled(True)
         if self.password_edit.text() == "":
             self.password_required.setVisible(True)
             self.password_edit.setStyleSheet("")
         else:
             self.password_required.setVisible(False)
             self.password_edit.setStyleSheet("border: 1px solid #2CE69B;")
+            self.login_button.setEnabled(True)
+            
+        if self.username_edit.text() != "" and self.password_edit.text() != "":
+            self.login_button.setEnabled(True)
+        else:
+            self.login_button.setEnabled(False)
         
     def login(self):
         username = self.username_edit.text()
@@ -216,6 +224,8 @@ class Login(QMainWindow, Ui_Login):
                 self.main = MainWindow(token=self.logged.json()["access"])
                 self.main.show()
                 self.close()
+            else:
+                QMessageBox.warning(self, "Error", "Invalid credentials")
         
     def mousePressEvent(self, event):
         self.dragPos = event.globalPosition().toPoint()
@@ -231,34 +241,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         
-        self.token = token
-        
-        self.version = ""
-        
-        self.service = Service()
-        worker = self.service.get_worker(worker_id=1)
-        print(worker)
-        
-        self.worker_name.setText(worker['data']['name'])
-        self.public_ip_address.setText(worker['data']['ip_address'])
-        
-        self.save_button.clicked.connect(self.save_settings)
-        
-        self.is_running = False
-        self.changing_color = True
-        self.process = QProcess()
-        self.collection_in_progress()
-          
-        self.timer_collection = QTimer()
-        self.timer_collection.timeout.connect(self.collection_in_progress)
-        self.timer_collection.start(100000)
-    
-        # self.timer = QTimer()
-        # self.timer.timeout.connect(self.update_data)
-        
-        # self.timer.start(300000)
-        
-        # self.showMaximized()
+        self.showMaximized()
         
         # Add a shadow on frame color black
         self.shadow = QGraphicsDropShadowEffect()
@@ -329,19 +312,39 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.dashboard_page_layout.addWidget(self.dashboard_page_custom_scroll)
         
         self.dashboard_page.setLayout(self.dashboard_page_layout)
+        
+        # ------------------ BEGIN COLLECTION CONFIGS ------------------
+        
+        self.token = token
+        
+        self.version = ""
+        
+        self.service = Service()
+        self.worker = self.service.get_worker(user_id=1)
+        
+        if self.worker:
+            self.worker_name.setText(self.worker['data']['name'])
+        else:
+            print("No worker")
+        
+        self.public_ip_address.setText(geolocation_info["ip"])
+        
+        self.save_button.clicked.connect(self.save_settings)
+        
+        self.is_running = False
+        self.changing_color = True
+        self.process = QProcess()
+        self.collection_in_progress()
+          
+        self.timer_collection = QTimer()
+        self.timer_collection.timeout.connect(self.collection_in_progress)
+        self.timer_collection.start(100000)
+        
+        # ------------------ END COLLECTION CONFIGS ------------------
     
     def closeEvent(self, event):
         self.process.kill()
         self.close()
-        
-        
-    # def update_data(self):
-    #     geolocation = GeoLocation()
-    #     geolocation_info = geolocation.get_location()
-        
-    #     service = Service()
-    #     service.put_worker(worker_id=1, ip_address=geolocation_info['ip'], city=geolocation_info['city'], region=geolocation_info['region'], country=geolocation_info['country'])
-        
         
     def process_finished(self):
         try:
@@ -354,12 +357,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         
     def collection_in_progress(self):
-        if not self.is_running:
+        
+        if not self.worker:
+            self.worker = self.service.get_worker(user_id=1)
+        
+        if not self.is_running and self.worker:
             try:
-                self.service = Service()
-                self.service.put_worker(worker_id=1, worker_name=self.worker_name.text() ,ip_address=geolocation_info['ip'], city=geolocation_info['city'], region=geolocation_info['region'], country=geolocation_info['country'])
-                self.version = self.service.version(worker_id=1)
-                self.handle_version = self.service.handle_version(worker_id=1, version_id=self.version['data']['id'])
+                self.version = self.service.version(worker_id=self.worker['data']['id'])
+                self.handle_version = self.service.handle_version(worker_id=self.worker['data']['id'], version_id=self.version['data']['id'])
             except Exception as e:
                 print(e)
                 
@@ -374,7 +379,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                                     str(self.handle_version['data']['rank_end'])])
                 self.process.finished.connect(self.process_finished)
         else:
-            print("Already running")
+            print("No worker or already running")
                 
         
         if self.changing_color:
@@ -454,10 +459,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.settings_page_button.setText("Settings")
             
     def save_settings(self):
-        if not self.service:
-            self.service = Service()
-        
-        self.service.put_worker(worker_id=1, worker_name=self.worker_name.text() ,ip_address=geolocation_info['ip'], city=geolocation_info['city'], region=geolocation_info['region'], country=geolocation_info['country'])
+        if self.worker_name.text() != "":
+            if not self.service:
+                self.service = Service()
+            
+            if not self.worker:
+                print("Creating worker")
+                self.worker = self.service.post_worker(worker_name=self.worker_name.text(), user_id=1, ip_address=geolocation_info['ip'], city=geolocation_info['city'], region=geolocation_info['region'], country=geolocation_info['country'])
+                if self.worker:
+                    QMessageBox.information(self, "Success", "Worker created successfully")
+            else:
+                self.service.put_worker(worker_id=self.worker['data']['id'], worker_name=self.worker_name.text(), ip_address=geolocation_info['ip'], city=geolocation_info['city'], region=geolocation_info['region'], country=geolocation_info['country'])
+                if self.worker:
+                    QMessageBox.information(self, "Success", "Worker updated successfully")
+        else:
+            QMessageBox.warning(self, "Error", "Please enter a worker name")
 
             
         
