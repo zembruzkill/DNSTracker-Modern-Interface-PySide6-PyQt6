@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'loginkaqdmI.ui'
+## Form generated from reading UI file 'loginULtuKs.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.0
 ##
@@ -16,8 +16,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QFrame, QHBoxLayout,
-    QLineEdit, QMainWindow, QPushButton, QSizePolicy,
-    QSpacerItem, QVBoxLayout, QWidget)
+    QLabel, QLineEdit, QMainWindow, QPushButton,
+    QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
 
 class Ui_Login(object):
     def setupUi(self, Login):
@@ -33,10 +33,33 @@ class Ui_Login(object):
 "	border-radius: 10px;\n"
 "}\n"
 "\n"
+"QLabel#login_label{\n"
+"	color: white;\n"
+"	font-size: 30px;\n"
+"	font-weight: bold;\n"
+"}\n"
+"\n"
+"QLabel#login_msg{\n"
+"	color: white;\n"
+"}\n"
+"\n"
+"QLabel#username_label, #password_label{\n"
+"	font-size: 10px;\n"
+"	font-weight: bold;\n"
+"	color: #B4B4DB;\n"
+"}\n"
+"\n"
+"QLabel#username_required, #password_required{\n"
+"	font-size: 10px;\n"
+"	color: #FF3D71;\n"
+"}\n"
+"\n"
 "QFrame#frame_content{\n"
 "	background-color: rgb(21, 26, 48);\n"
 "	border-radius: 10px;\n"
-"	margin: 80px;\n"
+"	margin-left: 75px;\n"
+"	margin-right: 75px;\n"
+"	margin-bottom: 40px;\n"
 "}\n"
 "\n"
 "QPushButton#minimize_button{\n"
@@ -54,7 +77,8 @@ class Ui_Login(object):
 "	min-height: 41px;\n"
 "	border-radius: 5px;\n"
 "	border: 1px solid black;\n"
-"	padding-left: 17px;\n"
+"	padding-left: 17px;"
+                        "\n"
 "	color: white;\n"
 "	font-weight: bold;\n"
 "}\n"
@@ -71,8 +95,7 @@ class Ui_Login(object):
 "QPushButton#login_button{\n"
 "	min-height: 38px;\n"
 "	font-weight: bold;\n"
-"	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(176, 137, 254, 255), stop:0.98 rgba(160, 110, 254, 25"
-                        "5));\n"
+"	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(176, 137, 254, 255), stop:0.98 rgba(160, 110, 254, 255));\n"
 "	border-radius: 5px;\n"
 "	color: white;\n"
 "}\n"
@@ -126,26 +149,63 @@ class Ui_Login(object):
 
         self.verticalLayout_2.addWidget(self.frame_2)
 
+        self.login_label = QLabel(self.centralwidget)
+        self.login_label.setObjectName(u"login_label")
+        self.login_label.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_2.addWidget(self.login_label)
+
+        self.login_msg = QLabel(self.centralwidget)
+        self.login_msg.setObjectName(u"login_msg")
+        self.login_msg.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_2.addWidget(self.login_msg)
+
         self.frame_content = QFrame(self.centralwidget)
         self.frame_content.setObjectName(u"frame_content")
         self.frame_content.setFrameShape(QFrame.NoFrame)
         self.frame_content.setFrameShadow(QFrame.Raised)
         self.verticalLayout = QVBoxLayout(self.frame_content)
+        self.verticalLayout.setSpacing(10)
         self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setContentsMargins(20, 20, 20, 20)
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout.addItem(self.verticalSpacer)
 
+        self.username_label = QLabel(self.frame_content)
+        self.username_label.setObjectName(u"username_label")
+
+        self.verticalLayout.addWidget(self.username_label)
+
         self.username_edit = QLineEdit(self.frame_content)
         self.username_edit.setObjectName(u"username_edit")
+        self.username_edit.setStyleSheet(u"QLineEdit{\n"
+"	border: 1px solid #2CE69B;\n"
+"}")
 
         self.verticalLayout.addWidget(self.username_edit)
+
+        self.username_required = QLabel(self.frame_content)
+        self.username_required.setObjectName(u"username_required")
+
+        self.verticalLayout.addWidget(self.username_required)
+
+        self.password_label = QLabel(self.frame_content)
+        self.password_label.setObjectName(u"password_label")
+
+        self.verticalLayout.addWidget(self.password_label)
 
         self.password_edit = QLineEdit(self.frame_content)
         self.password_edit.setObjectName(u"password_edit")
         self.password_edit.setEchoMode(QLineEdit.Password)
 
         self.verticalLayout.addWidget(self.password_edit)
+
+        self.password_required = QLabel(self.frame_content)
+        self.password_required.setObjectName(u"password_required")
+
+        self.verticalLayout.addWidget(self.password_required)
 
         self.frame = QFrame(self.frame_content)
         self.frame.setObjectName(u"frame")
@@ -198,11 +258,17 @@ class Ui_Login(object):
         self.close_button.setToolTip(QCoreApplication.translate("Login", u"Close Button", None))
 #endif // QT_CONFIG(tooltip)
         self.close_button.setText("")
+        self.login_label.setText(QCoreApplication.translate("Login", u"Login", None))
+        self.login_msg.setText(QCoreApplication.translate("Login", u"Hello! Login with your username!", None))
+        self.username_label.setText(QCoreApplication.translate("Login", u"Username", None))
         self.username_edit.setText("")
         self.username_edit.setPlaceholderText(QCoreApplication.translate("Login", u"Username", None))
+        self.username_required.setText(QCoreApplication.translate("Login", u"Email is required!", None))
+        self.password_label.setText(QCoreApplication.translate("Login", u"Password", None))
         self.password_edit.setPlaceholderText(QCoreApplication.translate("Login", u"Password", None))
+        self.password_required.setText(QCoreApplication.translate("Login", u"Password is required!", None))
         self.remember_checkbox.setText(QCoreApplication.translate("Login", u"Remember me", None))
-        self.forgot_button.setText(QCoreApplication.translate("Login", u"Forgot Password", None))
+        self.forgot_button.setText(QCoreApplication.translate("Login", u"Forgot Password?", None))
         self.login_button.setText(QCoreApplication.translate("Login", u"Login", None))
     # retranslateUi
 

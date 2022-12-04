@@ -32,10 +32,33 @@
 	border-radius: 10px;
 }
 
+QLabel#login_label{
+	color: white;
+	font-size: 30px;
+	font-weight: bold;
+}
+
+QLabel#login_msg{
+	color: white;
+}
+
+QLabel#username_label, #password_label{
+	font-size: 10px;
+	font-weight: bold;
+	color: #B4B4DB;
+}
+
+QLabel#username_required, #password_required{
+	font-size: 10px;
+	color: #FF3D71;
+}
+
 QFrame#frame_content{
 	background-color: rgb(21, 26, 48);
 	border-radius: 10px;
-	margin: 80px;
+	margin-left: 75px;
+	margin-right: 75px;
+	margin-bottom: 40px;
 }
 
 QPushButton#minimize_button{
@@ -176,6 +199,26 @@ QCheckBox#remember_checkbox{
      </widget>
     </item>
     <item>
+     <widget class="QLabel" name="login_label">
+      <property name="text">
+       <string>Login</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="login_msg">
+      <property name="text">
+       <string>Hello! Login with your username!</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QFrame" name="frame_content">
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
@@ -184,6 +227,21 @@ QCheckBox#remember_checkbox{
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="spacing">
+        <number>10</number>
+       </property>
+       <property name="leftMargin">
+        <number>20</number>
+       </property>
+       <property name="topMargin">
+        <number>20</number>
+       </property>
+       <property name="rightMargin">
+        <number>20</number>
+       </property>
+       <property name="bottomMargin">
+        <number>20</number>
+       </property>
        <item>
         <spacer name="verticalSpacer">
          <property name="orientation">
@@ -198,12 +256,38 @@ QCheckBox#remember_checkbox{
         </spacer>
        </item>
        <item>
+        <widget class="QLabel" name="username_label">
+         <property name="text">
+          <string>Username</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QLineEdit" name="username_edit">
+         <property name="styleSheet">
+          <string notr="true">QLineEdit{
+	border: 1px solid #2CE69B;
+}</string>
+         </property>
          <property name="text">
           <string/>
          </property>
          <property name="placeholderText">
           <string>Username</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="username_required">
+         <property name="text">
+          <string>Email is required!</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="password_label">
+         <property name="text">
+          <string>Password</string>
          </property>
         </widget>
        </item>
@@ -214,6 +298,13 @@ QCheckBox#remember_checkbox{
          </property>
          <property name="placeholderText">
           <string>Password</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="password_required">
+         <property name="text">
+          <string>Password is required!</string>
          </property>
         </widget>
        </item>
@@ -257,7 +348,7 @@ QCheckBox#remember_checkbox{
           <item>
            <widget class="QPushButton" name="forgot_button">
             <property name="text">
-             <string>Forgot Password</string>
+             <string>Forgot Password?</string>
             </property>
            </widget>
           </item>

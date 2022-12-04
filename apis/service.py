@@ -18,14 +18,14 @@ class Service():
             except Exception as e:
                 print(e)
 
-    def alive(self, worker_id, ip_address, city=None, region=None, country=None):
+    def put_worker(self, worker_id, worker_name, ip_address, city=None, region=None, country=None):
         if ip_address:
             try:
-                json_data = json.dumps({"is_alive": "True", "ip_address": ip_address, "city": city, "region": region, "country": country})
+                json_data = json.dumps({"name": worker_name ,"is_alive": "True", "ip_address": ip_address, "city": city, "region": region, "country": country})
                 query_url = BASE_URL+'/core/api/alive/{}/'.format(worker_id)
                 response = requests.put(query_url, json_data,
                                     headers=JSON_HEADERS)
-                # print(response.json())
+                return response.json()
             except Exception as e:
                 print(e)
                 
@@ -39,6 +39,17 @@ class Service():
                 return response.json()
             except Exception as e:
                 print(e)
+                
+    def get_worker(self, worker_id):
+        if worker_id:
+            try:
+                query_url = BASE_URL+'/core/api/worker/{}/'.format(worker_id)
+                response = requests.get(query_url,
+                                    headers=JSON_HEADERS)
+                return response.json()
+            except Exception as e:
+                print(e)
+
                 
     def handle_version(self, version_id, worker_id):
         if version_id and worker_id:

@@ -615,7 +615,7 @@ max-height: 20px;</string>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLineEdit" name="public_ipaddress">
+                        <widget class="QLineEdit" name="public_ip_address">
                          <property name="enabled">
                           <bool>false</bool>
                          </property>

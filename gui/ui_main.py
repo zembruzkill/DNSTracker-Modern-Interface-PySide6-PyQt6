@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'mainBaLwqW.ui'
+## Form generated from reading UI file 'mainjWXZun.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.0
 ##
@@ -375,11 +375,11 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_3.addWidget(self.worker_name)
 
-        self.public_ipaddress = QLineEdit(self.frame_form)
-        self.public_ipaddress.setObjectName(u"public_ipaddress")
-        self.public_ipaddress.setEnabled(False)
+        self.public_ip_address = QLineEdit(self.frame_form)
+        self.public_ip_address.setObjectName(u"public_ip_address")
+        self.public_ip_address.setEnabled(False)
 
-        self.verticalLayout_3.addWidget(self.public_ipaddress)
+        self.verticalLayout_3.addWidget(self.public_ip_address)
 
         self.save_button = QPushButton(self.frame_form)
         self.save_button.setObjectName(u"save_button")
@@ -446,8 +446,8 @@ class Ui_MainWindow(object):
         self.card_name.setText(QCoreApplication.translate("MainWindow", u"Worker Configuration", None))
         self.worker_name.setText("")
         self.worker_name.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Worker Name", None))
-        self.public_ipaddress.setText("")
-        self.public_ipaddress.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Public IP Address", None))
+        self.public_ip_address.setText("")
+        self.public_ip_address.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Public IP Address", None))
         self.save_button.setText(QCoreApplication.translate("MainWindow", u"Save", None))
     # retranslateUi
 

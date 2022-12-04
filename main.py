@@ -155,6 +155,9 @@ class Login(QMainWindow, Ui_Login):
         super().__init__()
         self.setupUi(self)
         
+        self.username_required.setVisible(False)
+        self.password_required.setVisible(False)
+        
         login_saved = load_login()
         
         if login_saved.get('remember'):
@@ -175,7 +178,24 @@ class Login(QMainWindow, Ui_Login):
         self.username_edit.returnPressed.connect(self.login)
         self.password_edit.returnPressed.connect(self.login)
         
+        self.username_edit.textChanged.connect(self.validate_login)
+        self.password_edit.textChanged.connect(self.validate_login)
+        
         self.login_button.clicked.connect(self.login)
+        
+    def validate_login(self):
+        if self.username_edit.text() == "":
+            self.username_required.setVisible(True)
+            self.username_edit.setStyleSheet("")
+        else:
+            self.username_required.setVisible(False)
+            self.username_edit.setStyleSheet("border: 1px solid #2CE69B;")
+        if self.password_edit.text() == "":
+            self.password_required.setVisible(True)
+            self.password_edit.setStyleSheet("")
+        else:
+            self.password_required.setVisible(False)
+            self.password_edit.setStyleSheet("border: 1px solid #2CE69B;")
         
     def login(self):
         username = self.username_edit.text()
@@ -191,14 +211,11 @@ class Login(QMainWindow, Ui_Login):
         else:
             self.service = Service()
             self.logged = self.service.login(username=username, password=password)
-            print(self.logged.json())
             
             if self.logged.status_code == 200:
-                self.main = MainWindow()
+                self.main = MainWindow(token=self.logged.json()["access"])
                 self.main.show()
                 self.close()
-            
-            
         
     def mousePressEvent(self, event):
         self.dragPos = event.globalPosition().toPoint()
@@ -210,11 +227,20 @@ class Login(QMainWindow, Ui_Login):
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-    def __init__(self):
+    def __init__(self, token):
         super().__init__()
         self.setupUi(self)
         
-        self.public_ipaddress.setText(geolocation_info['ip'])
+        self.token = token
+        
+        self.version = ""
+        
+        self.service = Service()
+        worker = self.service.get_worker(worker_id=1)
+        print(worker)
+        
+        self.worker_name.setText(worker['data']['name'])
+        self.public_ip_address.setText(worker['data']['ip_address'])
         
         self.save_button.clicked.connect(self.save_settings)
         
@@ -226,12 +252,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.timer_collection = QTimer()
         self.timer_collection.timeout.connect(self.collection_in_progress)
         self.timer_collection.start(100000)
+    
+        # self.timer = QTimer()
+        # self.timer.timeout.connect(self.update_data)
         
-
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.update_data)
-        
-        self.timer.start(300000)
+        # self.timer.start(300000)
         
         # self.showMaximized()
         
@@ -310,12 +335,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.close()
         
         
-    def update_data(self):
-        geolocation = GeoLocation()
-        geolocation_info = geolocation.get_location()
+    # def update_data(self):
+    #     geolocation = GeoLocation()
+    #     geolocation_info = geolocation.get_location()
         
-        service = Service()
-        service.alive(worker_id=1, ip_address=geolocation_info['ip'], city=geolocation_info['city'], region=geolocation_info['region'], country=geolocation_info['country'])
+    #     service = Service()
+    #     service.put_worker(worker_id=1, ip_address=geolocation_info['ip'], city=geolocation_info['city'], region=geolocation_info['region'], country=geolocation_info['country'])
         
         
     def process_finished(self):
@@ -332,7 +357,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if not self.is_running:
             try:
                 self.service = Service()
-                self.service.alive(worker_id=1, ip_address=geolocation_info['ip'], city=geolocation_info['city'], region=geolocation_info['region'], country=geolocation_info['country'])
+                self.service.put_worker(worker_id=1, worker_name=self.worker_name.text() ,ip_address=geolocation_info['ip'], city=geolocation_info['city'], region=geolocation_info['region'], country=geolocation_info['country'])
                 self.version = self.service.version(worker_id=1)
                 self.handle_version = self.service.handle_version(worker_id=1, version_id=self.version['data']['id'])
             except Exception as e:
@@ -429,7 +454,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.settings_page_button.setText("Settings")
             
     def save_settings(self):
-        pass
+        if not self.service:
+            self.service = Service()
+        
+        self.service.put_worker(worker_id=1, worker_name=self.worker_name.text() ,ip_address=geolocation_info['ip'], city=geolocation_info['city'], region=geolocation_info['region'], country=geolocation_info['country'])
+
             
         
 if __name__ == "__main__":
