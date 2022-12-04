@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'mainqluiSb.ui'
+## Form generated from reading UI file 'mainBaLwqW.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.0
 ##
@@ -16,8 +16,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QMainWindow, QPushButton, QSizePolicy, QSpacerItem,
-    QStackedWidget, QVBoxLayout, QWidget)
+    QLineEdit, QMainWindow, QPushButton, QSizePolicy,
+    QSpacerItem, QStackedWidget, QVBoxLayout, QWidget)
 import resource_rc
 
 class Ui_MainWindow(object):
@@ -87,6 +87,49 @@ class Ui_MainWindow(object):
 "	border: 1px solid black;\n"
 "	border-radius: 5px;\n"
 "}\n"
+"\n"
+"#settings_page\n"
+"\n"
+"QFrame#frame_name{\n"
+"	background-color: rgb(34, 43, 69);\n"
+"	border-bottom: 2px solid rgb(21, 26, 48);\n"
+"}\n"
+"\n"
+"QLabel#card_name{\n"
+"	font-weight: bold;\n"
+"}\n"
+"\n"
+"QLineEdit{\n"
+"	background-color: #252547;\n"
+"	min-height: 41px;\n"
+"	border-radius: 5px;\n"
+"	border: 1px solid black;\n"
+"	padding-left: 17px;\n"
+"	color: white;\n"
+"	font-weight: bold;\n"
+"}\n"
+"\n"
+"QLineEdit::focus{\n"
+"	border: 1px solid #A16EFF;\n"
+"}\n"
+"\n"
+"QLineEdit::hover{\n"
+"	background-color: #1B1B38;\n"
+"	border: 1px solid #A16EFF;\n"
+"}\n"
+"\n"
+"QPushButton#save_button{\n"
+"	font-weight: bold;\n"
+"	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(176, 137, 254, 255), stop:0.98 rgba(160, 110, 254, 255));\n"
+"	border-radius: 5px;\n"
+"}\n"
+"\n"
+"QPushButton#save_button::hover{\n"
+"	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #D3BEFE, stop:0.98 #B18AFE);\n"
+"}\n"
+""
+                        "\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -296,8 +339,58 @@ class Ui_MainWindow(object):
         self.worker_frame = QFrame(self.frame_3)
         self.worker_frame.setObjectName(u"worker_frame")
         self.worker_frame.setMinimumSize(QSize(0, 400))
+        self.worker_frame.setMaximumSize(QSize(500, 16777215))
         self.worker_frame.setFrameShape(QFrame.NoFrame)
         self.worker_frame.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_2 = QVBoxLayout(self.worker_frame)
+        self.verticalLayout_2.setSpacing(0)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.frame_name = QFrame(self.worker_frame)
+        self.frame_name.setObjectName(u"frame_name")
+        self.frame_name.setMaximumSize(QSize(16777215, 40))
+        self.frame_name.setFrameShape(QFrame.NoFrame)
+        self.frame_name.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_3 = QHBoxLayout(self.frame_name)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalLayout_3.setContentsMargins(25, -1, 25, -1)
+        self.card_name = QLabel(self.frame_name)
+        self.card_name.setObjectName(u"card_name")
+
+        self.horizontalLayout_3.addWidget(self.card_name)
+
+
+        self.verticalLayout_2.addWidget(self.frame_name)
+
+        self.frame_form = QFrame(self.worker_frame)
+        self.frame_form.setObjectName(u"frame_form")
+        self.frame_form.setFrameShape(QFrame.NoFrame)
+        self.frame_form.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_3 = QVBoxLayout(self.frame_form)
+        self.verticalLayout_3.setSpacing(16)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setContentsMargins(25, 16, 25, 16)
+        self.worker_name = QLineEdit(self.frame_form)
+        self.worker_name.setObjectName(u"worker_name")
+
+        self.verticalLayout_3.addWidget(self.worker_name)
+
+        self.public_ipaddress = QLineEdit(self.frame_form)
+        self.public_ipaddress.setObjectName(u"public_ipaddress")
+        self.public_ipaddress.setEnabled(False)
+
+        self.verticalLayout_3.addWidget(self.public_ipaddress)
+
+        self.save_button = QPushButton(self.frame_form)
+        self.save_button.setObjectName(u"save_button")
+        self.save_button.setMinimumSize(QSize(100, 40))
+        self.save_button.setMaximumSize(QSize(100, 16777215))
+
+        self.verticalLayout_3.addWidget(self.save_button, 0, Qt.AlignRight)
+
+
+        self.verticalLayout_2.addWidget(self.frame_form, 0, Qt.AlignTop)
+
 
         self.verticalLayout_9.addWidget(self.worker_frame)
 
@@ -331,7 +424,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(4)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -350,5 +443,11 @@ class Ui_MainWindow(object):
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:30pt; font-weight:700; color:#ffffff;\">Hosting Page</span></p></body></html>", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:30pt; font-weight:700; color:#ffffff;\">DNS Page</span></p></body></html>", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:30pt; font-weight:700; color:#ffffff;\">Email Page</span></p></body></html>", None))
+        self.card_name.setText(QCoreApplication.translate("MainWindow", u"Worker Configuration", None))
+        self.worker_name.setText("")
+        self.worker_name.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Worker Name", None))
+        self.public_ipaddress.setText("")
+        self.public_ipaddress.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Public IP Address", None))
+        self.save_button.setText(QCoreApplication.translate("MainWindow", u"Save", None))
     # retranslateUi
 

@@ -85,6 +85,48 @@ QFrame#worker_frame{
 	border-radius: 5px;
 }
 
+#settings_page
+
+QFrame#frame_name{
+	background-color: rgb(34, 43, 69);
+	border-bottom: 2px solid rgb(21, 26, 48);
+}
+
+QLabel#card_name{
+	font-weight: bold;
+}
+
+QLineEdit{
+	background-color: #252547;
+	min-height: 41px;
+	border-radius: 5px;
+	border: 1px solid black;
+	padding-left: 17px;
+	color: white;
+	font-weight: bold;
+}
+
+QLineEdit::focus{
+	border: 1px solid #A16EFF;
+}
+
+QLineEdit::hover{
+	background-color: #1B1B38;
+	border: 1px solid #A16EFF;
+}
+
+QPushButton#save_button{
+	font-weight: bold;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(176, 137, 254, 255), stop:0.98 rgba(160, 110, 254, 255));
+	border-radius: 5px;
+}
+
+QPushButton#save_button::hover{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #D3BEFE, stop:0.98 #B18AFE);
+}
+
+
+
 
 
 
@@ -424,7 +466,7 @@ max-height: 20px;</string>
           <item>
            <widget class="QStackedWidget" name="stackedWidget">
             <property name="currentIndex">
-             <number>0</number>
+             <number>4</number>
             </property>
             <widget class="QWidget" name="dashboard_page"/>
             <widget class="QWidget" name="hosting_page">
@@ -479,12 +521,135 @@ max-height: 20px;</string>
                      <height>400</height>
                     </size>
                    </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>500</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="frameShape">
                     <enum>QFrame::NoFrame</enum>
                    </property>
                    <property name="frameShadow">
                     <enum>QFrame::Raised</enum>
                    </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_2">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QFrame" name="frame_name">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="frameShape">
+                       <enum>QFrame::NoFrame</enum>
+                      </property>
+                      <property name="frameShadow">
+                       <enum>QFrame::Raised</enum>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_3">
+                       <property name="leftMargin">
+                        <number>25</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>25</number>
+                       </property>
+                       <item>
+                        <widget class="QLabel" name="card_name">
+                         <property name="text">
+                          <string>Worker Configuration</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item alignment="Qt::AlignTop">
+                     <widget class="QFrame" name="frame_form">
+                      <property name="frameShape">
+                       <enum>QFrame::NoFrame</enum>
+                      </property>
+                      <property name="frameShadow">
+                       <enum>QFrame::Raised</enum>
+                      </property>
+                      <layout class="QVBoxLayout" name="verticalLayout_3">
+                       <property name="spacing">
+                        <number>16</number>
+                       </property>
+                       <property name="leftMargin">
+                        <number>25</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>16</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>25</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>16</number>
+                       </property>
+                       <item>
+                        <widget class="QLineEdit" name="worker_name">
+                         <property name="text">
+                          <string/>
+                         </property>
+                         <property name="placeholderText">
+                          <string>Worker Name</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLineEdit" name="public_ipaddress">
+                         <property name="enabled">
+                          <bool>false</bool>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                         <property name="placeholderText">
+                          <string>Public IP Address</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item alignment="Qt::AlignRight">
+                        <widget class="QPushButton" name="save_button">
+                         <property name="minimumSize">
+                          <size>
+                           <width>100</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>100</width>
+                           <height>16777215</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string>Save</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                   </layout>
                   </widget>
                  </item>
                  <item>

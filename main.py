@@ -1,11 +1,12 @@
 # PySide6 Imports
-from PySide6.QtWidgets import QApplication, QMainWindow, QGraphicsDropShadowEffect, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QWidget, QFrame, QSpacerItem, QSizePolicy, QScrollArea
-from PySide6.QtGui import QColor, QPixmap, QIcon
+from PySide6.QtWidgets import QApplication, QMainWindow, QGraphicsDropShadowEffect, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QWidget, QFrame, QSpacerItem, QSizePolicy, QScrollArea, QMessageBox
+from PySide6.QtGui import QColor, QPixmap, QIcon, QScreen
 from PySide6.QtCore import Qt, QPropertyAnimation, QEasingCurve, QSize, QTimer, QUrl, QProcess
 from PySide6.QtSvgWidgets import QSvgWidget
 from PySide6.QtWebEngineWidgets import QWebEngineView
 
 # GUI Imports
+from gui.ui_login import Ui_Login
 from gui.ui_main import Ui_MainWindow
 from gui.ui_card_component import Ui_CardComponent
 from gui.ui_ui_chart_card import Ui_ChartCard
@@ -14,14 +15,14 @@ from gui.ui_custom_scroll_area import Ui_CustomScrollArea
 # General imports
 import time
 import os
-from settings import BASE_URL, JSON_HEADERS
+from settings import save_login, load_login,  BASE_URL, JSON_HEADERS
 from apis.service import Service
-import requests
-import json
-import glob
+# import requests
+# import json
+# import glob
 
 # Scripts imports
-from scripts.crawler import CrawlerThread
+# from scripts.crawler import CrawlerThread
 from scripts.geolocation import GeoLocation
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -148,11 +149,74 @@ class DashboardScrollArea(QWidget, Ui_CustomScrollArea):
         self.bottom_frame_layout.layout().setContentsMargins(0, 0, 0, 0)
         self.bottom_frame_layout.layout().setSpacing(30)
         self.frame_bottom.setLayout(self.bottom_frame_layout)
+        
+class Login(QMainWindow, Ui_Login):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        
+        login_saved = load_login()
+        
+        if login_saved.get('remember'):
+            self.username_edit.setText(login_saved.get("username"))
+            self.password_edit.setText(login_saved.get("password"))
+            self.remember_checkbox.setChecked(True)
+            
+        
+        center = QScreen.availableGeometry(QApplication.primaryScreen()).center()
+        self.move(center.x() - self.width() / 2, center.y() - self.height() / 2)
+        
+        self.setWindowFlags(Qt.FramelessWindowHint)
+        self.setAttribute(Qt.WA_TranslucentBackground)
+        
+        self.close_button.clicked.connect(self.close)
+        self.minimize_button.clicked.connect(self.showMinimized)
+        
+        self.username_edit.returnPressed.connect(self.login)
+        self.password_edit.returnPressed.connect(self.login)
+        
+        self.login_button.clicked.connect(self.login)
+        
+    def login(self):
+        username = self.username_edit.text()
+        password = self.password_edit.text()
+        
+        if self.remember_checkbox.isChecked():
+            save_login({"username": username, "password": password, "remember": True})
+        else:
+            save_login({"username": "", "password": "", "remember": False})
+        
+        if username == "" or password == "":
+            QMessageBox.warning(self, "Error", "Please fill in all the fields")
+        else:
+            self.service = Service()
+            self.logged = self.service.login(username=username, password=password)
+            print(self.logged.json())
+            
+            if self.logged.status_code == 200:
+                self.main = MainWindow()
+                self.main.show()
+                self.close()
+            
+            
+        
+    def mousePressEvent(self, event):
+        self.dragPos = event.globalPosition().toPoint()
+        
+    def mouseMoveEvent(self, event):
+     self.move(self.pos() + event.globalPosition().toPoint() - self.dragPos )
+     self.dragPos = event.globalPosition().toPoint()
+     event.accept()
+
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        
+        self.public_ipaddress.setText(geolocation_info['ip'])
+        
+        self.save_button.clicked.connect(self.save_settings)
         
         self.is_running = False
         self.changing_color = True
@@ -263,17 +327,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         self.collection_in_progress()
         
-        # self.version = self.service.version(worker_id=1)
-        # self.handle_version = self.service.handle_version(worker_id=1, version_id=self.version['data']['id'])
-        
-        # self.process = QProcess()
-        # self.process.start("python3", ["scripts/run.py",
-        #                                        str(self.handle_version['data']['id']),
-        #                                        str(self.version['data']['id']),
-        #                                        str(self.handle_version['data']['rank_start']),
-        #                                        str(self.handle_version['data']['rank_end'])])
-        # self.process.finished.connect(self.process_finished) 
-        
         
     def collection_in_progress(self):
         if not self.is_running:
@@ -375,6 +428,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.email_page_button.setText("Email Measurement")
             self.settings_page_button.setText("Settings")
             
+    def save_settings(self):
+        pass
+            
         
 if __name__ == "__main__":
     app = QApplication([])
@@ -382,7 +438,7 @@ if __name__ == "__main__":
     geolocation = GeoLocation()
     geolocation_info = geolocation.get_location()
 
-    window = MainWindow()
+    window = Login()
     window.show()
 
     app.exec()  

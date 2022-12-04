@@ -6,6 +6,17 @@ import os
 class Service():
     def __init__(self):
         pass
+    
+    def login(self, username, password):
+        if username and password:
+            try:
+                json_data = json.dumps({"username": username, "password": password})
+                query_url = BASE_URL+'/core/api/token/'
+                response = requests.post(query_url, json_data,
+                                    headers=JSON_HEADERS)
+                return response
+            except Exception as e:
+                print(e)
 
     def alive(self, worker_id, ip_address, city=None, region=None, country=None):
         if ip_address:
