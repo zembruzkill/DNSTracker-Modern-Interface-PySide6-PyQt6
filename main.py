@@ -317,7 +317,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         self.token = token
         
-        self.version = ""
+        self.version = None
         
         self.service = Service()
         self.worker = self.service.get_worker(user_id=1)
@@ -360,10 +360,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         if not self.worker:
             self.worker = self.service.get_worker(user_id=1)
+        if not self.version and self.worker:
+            self.version = self.service.version(worker_id=self.worker['data']['id'])
         
         if not self.is_running and self.worker:
             try:
-                self.version = self.service.version(worker_id=self.worker['data']['id'])
                 self.handle_version = self.service.handle_version(worker_id=self.worker['data']['id'], version_id=self.version['data']['id'])
             except Exception as e:
                 print(e)

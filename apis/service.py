@@ -91,7 +91,7 @@ class Service():
         try:
             data = {'version_id': version_id, 'handle_id': handle_id}
             files = {'query_file': open('avro_files/collections/' + query_file_name, 'rb')}
-            query_url = 'http://localhost:8000/core/api/query_file/'
+            query_url = BASE_URL+'/core/api/query_file/'
             response = requests.post(query_url, files=files, data=data)
             print(response.json())
             if response.status_code == 200:
